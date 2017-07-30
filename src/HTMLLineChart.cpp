@@ -177,7 +177,7 @@ std::pair<uint32_t, uint32_t> HTMLLineChart::get_point_position(const HTMLGraph:
     if(x_string_values.empty())
     {
         return std::make_pair(left_padding + (data_point.x / (double)x_increment) * x_label_spacing,
-                              (graph_height - ((data_point.y / (double)x_increment) * y_label_spacing) - bottom_padding));
+                              (graph_height - ((data_point.y / (double)y_increment) * y_label_spacing) - bottom_padding));
     }
 
     //Else if X values are user provided
@@ -185,7 +185,7 @@ std::pair<uint32_t, uint32_t> HTMLLineChart::get_point_position(const HTMLGraph:
     if(x_iter == x_string_values.end())
         throw std::logic_error("No such X label: " + data_point.x_label);
     return std::make_pair((x_label_spacing/2) + left_padding + (std::distance(x_string_values.begin(), x_iter) * x_label_spacing),
-                          (graph_height - ((data_point.y / (double)x_increment) * y_label_spacing) - bottom_padding));
+                          (graph_height - ((data_point.y / (double)y_increment) * y_label_spacing) - bottom_padding));
 }
 
 void HTMLLineChart::set_x_index_strings(std::vector<std::string> values)
