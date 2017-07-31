@@ -52,37 +52,37 @@ void HTMLLineChart::add_point(const HTMLGraph::DataPoint &point)
 
 void HTMLLineChart::render_to_context(CanvasContext &context)
 {
-//    //Sort data points
-//    std::sort(data_points.begin(), data_points.end(), [](const auto &a, const auto &b){return a.x < b.x;});
-//
-//    draw_frame(context, graph_width, graph_height, max_x, max_y, graph_title);
-//
-//    //Draw data
-//    if(!data_points.empty())
-//    {
-//        //Draw the connecting lines
-//        context.set_property("lineWidth", get_line_thickness());
-//        context.set_property("strokeStyle", "#f00");
-//        context.begin_path();
-//        auto start_pos = get_point_bounds(data_points.front());
-//        context.move_to(start_pos.first, start_pos.second);
-//        for(size_t a = 1; a < data_points.size(); a++)
-//        {
-//            auto pos = get_point_bounds(data_points[a]);
-//            context.line_to(pos.first, pos.second);
-//        }
-//        context.stroke();
-//
-//        //Draw the data points
-//        context.set_property("fillStyle", "#333");
-//        for(auto &data_point : data_points)
-//        {
-//            context.begin_path();
-//            auto pos = get_point_bounds(data_point);
-//            context.arc(pos.first, pos.second, 4, 0, M_PI * 2);
-//            context.fill();
-//        }
-//    }
+    //Sort data points
+    std::sort(data_points.begin(), data_points.end(), [](const auto &a, const auto &b){return a.x < b.x;});
+
+    draw_frame(context, graph_width, graph_height, max_x, max_y, graph_title);
+
+    //Draw data
+    if(!data_points.empty())
+    {
+        //Draw the connecting lines
+        context.set_property("lineWidth", get_line_thickness());
+        context.set_property("strokeStyle", "#f00");
+        context.begin_path();
+        auto point = get_point_bounds(data_points.front());
+        context.move_to(point.x, point.y - point.height);
+        for(size_t a = 1; a < data_points.size(); a++)
+        {
+            point = get_point_bounds(data_points[a]);
+            context.line_to(point.x, point.y - point.height);
+        }
+        context.stroke();
+
+        //Draw the data points
+        context.set_property("fillStyle", "#333");
+        for(auto &data_point : data_points)
+        {
+            context.begin_path();
+            point = get_point_bounds(data_point);
+            context.arc(point.x, point.y - point.height, 4, 0, M_PI * 2);
+            context.fill();
+        }
+    }
 }
 std::pair<uint32_t, uint32_t> HTMLLineChart::get_size()
 {
