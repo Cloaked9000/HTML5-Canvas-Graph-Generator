@@ -38,6 +38,23 @@ public:
     };
 
     /*!
+     * Stores some 2D bounds
+     */
+    struct Bound
+    {
+        Bound()= default;
+        Bound(uint32_t x_, uint32_t y_)
+        : x(x_), y(y_), height(0), width(0){}
+        Bound(uint32_t x_, uint32_t y_, uint32_t width_, uint32_t height_)
+                : x(x_), y(y_), height(height_), width(width_){}
+
+        uint32_t x;
+        uint32_t y;
+        uint32_t height;
+        uint32_t width;
+    };
+
+    /*!
      *  A graph data point
      */
     struct DataPoint
@@ -99,6 +116,14 @@ public:
     virtual void set_title(const std::string &title)=0;
 
     /*!
+     * Gets the canvas title.
+     * This is what's rendered above the graph.
+     *
+     * @return The title used, empty if none.
+     */
+    virtual std::string get_title()=0;
+
+    /*!
      * Adds a data point to the graph.
      *
      * @note If this fails, it will throw an std::logic_error, with a reason.
@@ -106,6 +131,13 @@ public:
      * @param point The data point to add
      */
     virtual void add_point(const DataPoint &point)=0;
+
+    /*!
+     * Gets the graph size.
+     *
+     * @return A pair containing the size of the graph. X = first, Y = second.
+     */
+    virtual std::pair<uint32_t, uint32_t> get_size() = 0;
 private:
 };
 

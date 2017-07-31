@@ -3,6 +3,7 @@
 //
 
 #include <algorithm>
+#include <iostream>
 #include "HTMLBarChart.h"
 
 std::string HTMLBarChart::construct()
@@ -18,11 +19,8 @@ std::string HTMLBarChart::construct()
     //Create render context
     CanvasContext context("ctx");
 
-    //Render axis
-    auto max_y_iter = std::max_element(data_points.begin(), data_points.end(), [](const auto &a, const auto &b){return a.y < b.y;});
-    auto max_x_iter = std::max_element(data_points.begin(), data_points.end(), [](const auto &a, const auto &b){return a.x < b.x;});
-   // HTMLLineChart::render_to_context(context, graph_width, graph_height, max_x_iter == data_points.end() ? 0 : max_x_iter->x,
-                                                                        // max_y_iter == data_points.end() ? 0 : max_y_iter->y);
+    //Render it
+    render_to_context(context);
 
     //Add to resulting script
     graph += context.dump();
@@ -46,4 +44,39 @@ void HTMLBarChart::set_title(const std::string &title)
 void HTMLBarChart::add_point(const HTMLGraph::DataPoint &point)
 {
     data_points.emplace_back(point);
+    if(point.x > max_x)
+        max_x = point.x;
+    if(point.y > max_y)
+        max_y = point.y;
+}
+
+std::pair<uint32_t, uint32_t> HTMLBarChart::get_size()
+{
+    return {graph_width, graph_height};
+}
+
+std::string HTMLBarChart::get_title()
+{
+    return graph_title;
+}
+
+void HTMLBarChart::render_to_context(CanvasContext &context)
+{
+    //Sort data points
+    std::sort(data_points.begin(), data_points.end(), [](const auto &a, const auto &b){return a.x < b.x;});
+
+    draw_frame(context, graph_width, graph_height, max_x, max_y, graph_title);
+
+    //Draw data
+    if(!data_points.empty())
+    {
+        //Draw the bars
+        context.set_property("fillStyle", "#333");
+        for(auto &data_point : data_points)
+        {
+            auto pos = get_point_bounds(data_point, true);
+            std::cout << pos.x << ", " << pos.y << ", " << pos.width << ", " << pos.height << std::endl;
+            context.fill_rect(pos.x, pos.y - pos.height, pos.width, pos.height);
+        }
+    }
 }

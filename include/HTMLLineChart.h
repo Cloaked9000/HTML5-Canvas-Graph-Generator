@@ -11,16 +11,15 @@
 #include <map>
 #include "CanvasContext.h"
 #include "HTMLGraph.h"
+#include "HTMLGraphFrame.h"
 
 /*!
- * Class for rendering graph axis.
- * Should be inherited by graph types to allow
- * axis rendering.
+ * For creating line graphs
  */
-class HTMLLineChart : public HTMLGraph
+class HTMLLineChart : public HTMLGraph, public HTMLGraphFrame
 {
 public:
-    HTMLLineChart();
+    HTMLLineChart()= default;
     HTMLLineChart(HTMLLineChart &&)=default;
     HTMLLineChart(const HTMLLineChart &)=default;
 
@@ -62,64 +61,36 @@ public:
     void add_point(const DataPoint &point) override;
 
     /*!
-     * Set's the axis increment.
-     * This is the interval in numbers between each data point.
+     * Gets the graph size.
      *
-     * @param x The interval to draw along the bottom
-     * @param y The interval to draw along the left
+     * @return A pair containing the size of the graph. X = first, Y = second.
      */
-    void set_increment(uint32_t x, uint32_t y);
+    std::pair<uint32_t, uint32_t> get_size() override;
 
     /*!
-     * Sets the label to draw to the left of the axis, if any.
+     * Gets the canvas title.
+     * This is what's rendered above the graph.
      *
-     * @param label The label to draw. Leave blank for none.
+     * @return The title used, empty if none.
      */
-    void set_x_label(const std::string &label);
-
-    /*!
-     * Sets the label to draw under the axis, if any.
-     * @param label The label to draw. Leave blank for none.
-     */
-    void set_y_label(const std::string &label);
-
-    /*!
-     * Used for setting the X value labels. If this is not set, then numbers will be
-     * auto generated based on the X increment value.
-     *
-     * @param values The values to use for X labels
-     */
-    void set_x_index_strings(std::vector<std::string> values);
+    std::string get_title() override;
 protected:
 
 private:
+    /*!
+     * Renders the line chart to a given canvas context. The state of
+     * the canvas will be preserved (style changes etc).
+     *
+     * @param context The context to render to.
+     */
     void render_to_context(CanvasContext &context);
-
-    std::pair<uint32_t, uint32_t> get_point_position(const DataPoint &data_point);
 
     uint32_t graph_width;
     uint32_t graph_height;
-    uint32_t left_padding;
-    uint32_t bottom_padding;
-    uint32_t top_padding;
-    std::string graph_title;
-    uint32_t axis_label_font_size;
-    uint32_t title_font_size;
-    uint32_t graph_line_thickness;
-    std::vector<DataPoint> data_points;
-
-    uint32_t x_increment{};
-    uint32_t y_increment{};
-    std::string render_context;
-    std::string x_label;
-    std::string y_label;
-
     uint32_t max_x{0};
     uint32_t max_y{0};
-    uint32_t x_label_spacing{0};
-    uint32_t y_label_spacing{0};
-
-    std::vector<std::string> x_string_values;
+    std::vector<DataPoint> data_points;
+    std::string graph_title;
 };
 
 

@@ -4,12 +4,15 @@
 
 int main()
 {
-    HTMLLineChart chart;
+    HTMLBarChart chart;
     chart.set_size(600, 500);
     chart.set_increment(10, 10);
 
     chart.add_point({"Monday", 10});
-    chart.add_point({"Tuesday", 20});
+    chart.add_point({"Tuesday", 25});
+    chart.add_point({"Wednesday", 5});
+    chart.add_point({"Thursday", 0});
+    chart.add_point({"Friday", 20});
     chart.add_point({"Saturday", 50});
     chart.add_point({"Sunday", 40});
 //    chart.add_point({55, 33});
@@ -17,7 +20,7 @@ int main()
 //    chart.add_point({40, 20});
 //    chart.add_point({60, 30});
 
-    chart.set_x_index_strings({"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"});
+    chart.set_x_index_strings({"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"                                                                                                                                                                                 , "Saturday", "Sunday"});
 
     chart.set_title("Mhmm... Graph titles...");
     chart.set_x_label("Arbitrary X Data");

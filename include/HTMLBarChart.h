@@ -7,11 +7,23 @@
 
 #include <vector>
 #include "HTMLGraph.h"
-#include "HTMLLineChart.h"
+#include "HTMLBarChart.h"
+#include "HTMLGraphFrame.h"
 
-class HTMLBarChart : public HTMLGraph
+/*!
+ * For creating bar charts
+ */
+class HTMLBarChart : public HTMLGraph, public HTMLGraphFrame
 {
 public:
+    HTMLBarChart() = default;
+    HTMLBarChart(HTMLBarChart &&)=default;
+    HTMLBarChart(const HTMLBarChart &)=default;
+
+    ~HTMLBarChart() override = default;
+    HTMLBarChart &operator=(const HTMLBarChart&)=default;
+    HTMLBarChart &operator=(HTMLBarChart&&)=default;
+
     /*!
      * Constructs the graph and returns a string of HTML
      * that can be rendered by a browser.
@@ -39,14 +51,43 @@ public:
     /*!
      * Adds a data point to the graph.
      *
+     * @note If this fails, it will throw an std::logic_error, with a reason.
+     *
      * @param point The data point to add
      */
     void add_point(const DataPoint &point) override;
+
+    /*!
+     * Gets the graph size.
+     *
+     * @return A pair containing the size of the graph. X = first, Y = second.
+     */
+    std::pair<uint32_t, uint32_t> get_size() override;
+
+    /*!
+     * Gets the canvas title.
+     * This is what's rendered above the graph.
+     *
+     * @return The title used, empty if none.
+     */
+    std::string get_title() override;
+protected:
+
 private:
+    /*!
+     * Renders the line chart to a given canvas context. The state of
+     * the canvas will be preserved (style changes etc).
+     *
+     * @param context The context to render to.
+     */
+    void render_to_context(CanvasContext &context);
+
     uint32_t graph_width;
     uint32_t graph_height;
-    std::string graph_title;
+    uint32_t max_x{0};
+    uint32_t max_y{0};
     std::vector<DataPoint> data_points;
+    std::string graph_title;
 };
 
 
