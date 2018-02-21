@@ -6,6 +6,8 @@ At the moment, only line graphs with a set style are supported, but I plan to ad
 charts and PIE charts in time, along with more options, and customisable style.
 
 <h2>Examples</h2>
+
+#### Line Chart
 <img src="https://frednicolson.co.uk/u/graph_example.png" alt="Example Graph 1">
 
 ```c++
@@ -27,6 +29,7 @@ chart.set_x_label("Cookies Eaten");
 chart.set_y_label("Day");
 ```
 
+#### Another Line Chart
 <img src="https://frednicolson.co.uk/u/graph_example2.png" alt="Example Graph 2">
 
 ```c++
@@ -40,4 +43,27 @@ for(uint32_t a = 0; a < 600; a += 20)
 chart.set_title("GPU Temperature");
 chart.set_x_label("Frame Number");
 chart.set_y_label("Temperature (c)");
+```
+
+#### Bar Chart
+<img src="https://frednicolson.co.uk/u/graph_example3.png" alt="Example Graph 2">
+
+```c++
+HTMLBarChart chart;
+chart.set_size(600, 500);
+chart.set_increment(1, 1);
+
+chart.add_point({"Monday", 2, HTMLGraph::Colour(249, 199, 168)});
+chart.add_point({"Tuesday", 3, HTMLGraph::Colour(243, 154, 155)});
+chart.add_point({"Wednesday", 1, HTMLGraph::Colour(236, 110, 141)});
+chart.add_point({"Thursday", 0});
+chart.add_point({"Friday", 5, HTMLGraph::Colour(169,55,144)});
+chart.add_point({"Saturday", 6, HTMLGraph::Colour(123,35,151)});
+chart.add_point({"Sunday", 2, HTMLGraph::Colour(92,24,134)});
+
+chart.set_x_index_strings({"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"                                                                                                                                                                                 , "Saturday", "Sunday"});
+
+chart.set_title("Distance Ran");
+chart.set_x_label("Day");
+chart.set_y_label("Miles");
 ```

@@ -71,11 +71,11 @@ void HTMLBarChart::render_to_context(CanvasContext &context)
     if(!data_points.empty())
     {
         //Draw the bars
-        context.set_property("fillStyle", "#333");
         for(auto &data_point : data_points)
         {
             auto pos = get_point_bounds(data_point, true);
             std::cout << pos.x << ", " << pos.y << ", " << pos.width << ", " << pos.height << std::endl;
+            context.set_property("fillStyle", data_point.colour.to_string());
             context.fill_rect(pos.x, pos.y - pos.height, pos.width, pos.height);
         }
     }

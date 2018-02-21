@@ -6,6 +6,9 @@
 #define HTMLGRAPHGENERATOR_HTMLGRAPH_H
 #include <string>
 #include <utility>
+#include <sstream>
+#include <iomanip>
+#include <iostream>
 
 /*!
  * Abstract graph class, the parent for
@@ -32,9 +35,20 @@ public:
           g(g_),
           b(b_){}
 
-        uint8_t r{255};
-        uint8_t g{255};
-        uint8_t b{255};
+        /*!
+         * Returns the colour as a rgb(r,g,b) string suitable
+         * for colouring things in CSS.
+         *
+         * @return A string encoded colour
+         */
+        std::string to_string()
+        {
+            return std::string("rgb(").append(std::to_string(r)).append(",").append(std::to_string(g)).append(",").append(std::to_string(b)).append(")");
+        }
+
+        uint8_t r{51};
+        uint8_t g{51};
+        uint8_t b{51};
     };
 
     /*!

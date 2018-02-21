@@ -6,25 +6,21 @@ int main()
 {
     HTMLBarChart chart;
     chart.set_size(600, 500);
-    chart.set_increment(10, 10);
+    chart.set_increment(1, 1);
 
-    chart.add_point({"Monday", 10});
-    chart.add_point({"Tuesday", 25});
-    chart.add_point({"Wednesday", 5});
+    chart.add_point({"Monday", 2, HTMLGraph::Colour(249, 199, 168)});
+    chart.add_point({"Tuesday", 3, HTMLGraph::Colour(243, 154, 155)});
+    chart.add_point({"Wednesday", 1, HTMLGraph::Colour(236, 110, 141)});
     chart.add_point({"Thursday", 0});
-    chart.add_point({"Friday", 20});
-    chart.add_point({"Saturday", 50});
-    chart.add_point({"Sunday", 40});
-//    chart.add_point({55, 33});
-//    chart.add_point({20, 30});
-//    chart.add_point({40, 20});
-//    chart.add_point({60, 30});
+    chart.add_point({"Friday", 5, HTMLGraph::Colour(169,55,144)});
+    chart.add_point({"Saturday", 6, HTMLGraph::Colour(123,35,151)});
+    chart.add_point({"Sunday", 2, HTMLGraph::Colour(92,24,134)});
 
     chart.set_x_index_strings({"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"                                                                                                                                                                                 , "Saturday", "Sunday"});
 
-    chart.set_title("Mhmm... Graph titles...");
-    chart.set_x_label("Arbitrary X Data");
-    chart.set_y_label("Arbitrary Y Data");
+    chart.set_title("Distance Ran");
+    chart.set_x_label("Day");
+    chart.set_y_label("Miles");
 
     std::string str = chart.construct();
     std::ofstream file("out.html");
